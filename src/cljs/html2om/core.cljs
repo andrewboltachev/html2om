@@ -107,7 +107,12 @@
                         }))
 
 (defn send-fn [data cb]
-  (println "send-fn" data)
+  (utils/edn-xhr
+    {:method :post
+                 :url "/api"
+                 :data data
+                 :on-complete cb}
+    )
   )
 
 (def reconciler (om/reconciler

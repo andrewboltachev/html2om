@@ -2,11 +2,13 @@
   (:require [ring.util.response :refer [file-response]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.edn :refer [wrap-edn-params]]
-            [compojure.core :refer [defroutes GET PUT]]
+            [compojure.core :refer [defroutes GET PUT POST]]
             [compojure.route :as route]
             [compojure.handler :as handler]
             [datomic.api :as d]
-            [html2om.util :as util]))
+            [html2om.util :as util]
+            [om.next.server :as om]
+            ))
 
 (when (= (subs util/uri 0 14) "datomic:mem://")
   (println "Creating in-memory DB" util/uri)
@@ -45,13 +47,23 @@
                  db)))]
     (generate-response classes)))
 
+
+(defn api [edn-params]
+  (println edn-params)
+  (generate-response nil)
+  )
+
 (defroutes routes
   (GET "/" [] (index))
   (GET "/classes" [] (classes))
   (PUT "/class/:id/update"
     {params :params edn-params :edn-params}
     (update-class (:id params) edn-params))
-  (route/files "/" {:root "resources/public"}))
+  (route/files "/" {:root "resources/public"})
+  (POST "/api"
+    {edn-params :edn-params}
+    (api edn-params))
+  )
 
 (def handler 
   (-> routes
