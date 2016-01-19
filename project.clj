@@ -26,7 +26,8 @@
   :clean-targets ^{:protect false} ["resources/public/js/out"
                                     "resources/public/js/main.js"]
 
-  :figwheel {:ring-handler html2om.core/handler}
+  :figwheel {:ring-handler html2om.core/handler
+             :server-port 8701}
 
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/clj" "src/cljs"]
