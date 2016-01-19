@@ -15,7 +15,9 @@
                  [compojure "1.4.0"]
                  [figwheel "0.5.0-3"]
                  [fogus/ring-edn "0.3.0"]
-                 [com.datomic/datomic-free "0.9.5344" :exclusions [joda-time]]]
+                 [com.datomic/datomic-free "0.9.5344" :exclusions [joda-time]]
+                 [clj-tagsoup "0.3.0"]
+                 ]
 
   :plugins [[lein-cljsbuild "1.1.2"]
             [lein-figwheel "0.5.0-3"]]
