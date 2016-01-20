@@ -1,5 +1,4 @@
 # HTML2Om
-Upcoming HTML to Om DOM code converter
 
 Convert HTML to [Om](https://github.com/omcljs/om) layout syntax. For example:
 
