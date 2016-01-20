@@ -33,4 +33,4 @@ It isn't deployed anywhere to the web yet.
  
 ## TODO
 
-* Add all attributes (for now only `:className` is supported, i.e. `class="myclass"` is converted to `{:className "myclass"}`
+* Add all attributes (for now only `:className` is supported, i.e. `class="myclass"` would be converted to `{:className "myclass"}`, and other attribute names left as-is.
