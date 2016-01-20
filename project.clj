@@ -16,6 +16,7 @@
                  [figwheel "0.5.0-3"]
                  [fogus/ring-edn "0.3.0"]
                  [com.datomic/datomic-free "0.9.5344" :exclusions [joda-time]]
+                 [fipp "0.6.4"]
                  [clj-tagsoup "0.3.0"]
                  ]
 

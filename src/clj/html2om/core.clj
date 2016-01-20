@@ -8,7 +8,10 @@
             [datomic.api :as d]
             [html2om.util :as util]
             [om.next.server :as om]
+            [html2om.parser]
             ))
+
+(require '[fipp.edn :refer (pprint) :rename {pprint fipp}])
 
 (when (= (subs util/uri 0 14) "datomic:mem://")
   (println "Creating in-memory DB" util/uri)
@@ -54,7 +57,14 @@
 
 (defmethod readf :om-text/om-text
   [{:keys [state] :as env} k params]
-  {:value "foo"}
+  (let [v (html2om.parser/html2om
+        (:value (:html params))
+        )]
+    (println "wow" v)
+    {:value
+      v
+     }
+    )
   )
 
 (defmulti mutatef om/dispatch)
