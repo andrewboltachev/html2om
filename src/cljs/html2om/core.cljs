@@ -77,10 +77,21 @@
   {:value "bar"}
   )
 
+#_(defmethod readf :om-text/om-text
+  [{:keys [state ast] :as env} k params]
+  (println "ast is"
+           ast)
+  {:remote ast
+   ;:value "hello there"
+   }
+  )
 (defmethod readf :om-text/om-text
   [{:keys [state] :as env} k params]
-  {:remote true}
-  )
+  (let [st @state
+        local-val (:om-text/om-text st)]
+      {:value local-val
+      :remote true}))
+
 
 (defmethod readf :value
   [{:keys [state] :as env} k params]
@@ -104,7 +115,9 @@
 ;; Root
 
 (def data
-  (atom {:value ""}))
+  (atom {:value ""
+         :om-text/om-text ""
+         }))
 
 (def parser (om/parser {:read readf
                         :mutate mutatef
@@ -119,7 +132,7 @@
                                 (println "calling cb" (prn-str x))
                                 ; this receives {:om-text/om-text "foo"}
                                 ; but dom/pre in RootView won't be updated
-                                (cb x)
+                                (cb x data)
                                 )
      }
     )
