@@ -29,6 +29,9 @@
 
   Object
   (render [this]
+          (println "render called"
+                   (om/props this)
+                   )
     (dom/div #js {:className "container"}
              "Enter HTML:"
              (dom/textarea #js {:className "form-control"
