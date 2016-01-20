@@ -13,9 +13,18 @@
 ;; Components
 
 (defui RootView
+  static om/IQueryParams
+  (params [_]
+          {:html ""}
+          )
+
   static om/IQuery
   (query [_]
-         '[:value]
+         '[:value
+           (:om-text
+             {:html ?html}
+             )
+           ]
          )
 
   Object
@@ -38,10 +47,10 @@
                            )
              (dom/button #js {:className "btn btn-block"
                               :onClick (fn [e]
-                                         (om/transact! this
-                                                       `[(~'html2om
-                                                           {:html ~(:value (om/props this))}
-                                                           )]
+                                         (om/set-query! this
+                                                        {:params
+                                                           {:html (om/props this)}
+                                                           }
                                                        )
                                          )
                                 }
@@ -50,6 +59,7 @@
              (dom/br nil)
              (dom/br nil)
              (dom/pre #js {:className ""}
+                      (:om-text (om/props this))
                       )
              )
           )
@@ -64,19 +74,17 @@
   {:value "bar"}
   )
 
+(defmethod readf :om-text
+  [{:keys [state] :as env} k params]
+  {:remote true}
+  )
+
 (defmethod readf :value
   [{:keys [state] :as env} k params]
   {:value (:value @state)}
   )
 
 (defmulti mutatef om/dispatch)
-
-(defmethod mutatef 'html2om
-  [{:keys [state] :as env} k params]
-  (println "mutatef" k params)
-  {:remote true
-   }
-  )
 
 (defmethod mutatef 'set-value
   [{:keys [state] :as env} k {:keys [value]}]
@@ -90,17 +98,10 @@
    }
   )
 
-(defmethod readf :om-code
-  [{:keys [state] :as env} k params]
-  {:value
-   (:value @state)
-   }
-  )
-
 ;; Root
 
 (def data
-  {:value ""})
+  (atom {:value ""}))
 
 (def parser (om/parser {:read readf
                         :mutate mutatef
@@ -111,7 +112,12 @@
     {:method :post
                  :url "/api"
                  :data data
-                 :on-complete cb}
+                 :on-complete (fn [x]
+                                (cb x
+                                    (:remote data)
+                                    )
+                                )
+     }
     )
   )
 

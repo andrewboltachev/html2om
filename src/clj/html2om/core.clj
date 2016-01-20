@@ -48,9 +48,24 @@
     (generate-response classes)))
 
 
+;; Read & Write
+
+(defmulti readf om/dispatch)
+
+(defmethod readf :om-text
+  [{:keys [state] :as env} k params]
+  {:value (prn-str params)}
+  )
+
+(defmulti mutatef om/dispatch)
+
+(def parser (om/parser {:read readf
+                        :mutate mutatef}))
+
 (defn api [edn-params]
-  (println edn-params)
-  (generate-response nil)
+  (generate-response
+    (parser {} (:remote edn-params))
+    )
   )
 
 (defroutes routes
