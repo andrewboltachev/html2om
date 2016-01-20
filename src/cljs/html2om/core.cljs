@@ -21,7 +21,7 @@
   static om/IQuery
   (query [_]
          '[:value
-           (:om-text
+           (:om-text/om-text
              {:html ?html}
              )
            ]
@@ -59,7 +59,7 @@
              (dom/br nil)
              (dom/br nil)
              (dom/pre #js {:className ""}
-                      (:om-text (om/props this))
+                      (:om-text/om-text (om/props this))
                       )
              )
           )
@@ -74,7 +74,7 @@
   {:value "bar"}
   )
 
-(defmethod readf :om-text
+(defmethod readf :om-text/om-text
   [{:keys [state] :as env} k params]
   {:remote true}
   )
@@ -113,6 +113,9 @@
                  :url "/api"
                  :data data
                  :on-complete (fn [x]
+                                (println "calling cb" (prn-str x))
+                                ; this receives {:om-text/om-text "foo"}
+                                ; but dom/pre in RootView won't be updated
                                 (cb x)
                                 )
      }

@@ -52,9 +52,9 @@
 
 (defmulti readf om/dispatch)
 
-(defmethod readf :om-text
+(defmethod readf :om-text/om-text
   [{:keys [state] :as env} k params]
-  {:value (prn-str params)}
+  {:value "foo"}
   )
 
 (defmulti mutatef om/dispatch)
