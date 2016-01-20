@@ -113,9 +113,7 @@
                  :url "/api"
                  :data data
                  :on-complete (fn [x]
-                                (cb x
-                                    (:remote data)
-                                    )
+                                (cb x)
                                 )
      }
     )
