@@ -65,3 +65,12 @@
 (def handler 
   (-> routes
       wrap-edn-params))
+
+
+; TODO: consider serving static with different server
+
+(use 'ring.middleware.file)
+
+(def handler-prod
+  (wrap-file handler "resources/public")
+  )

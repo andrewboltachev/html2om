@@ -4,13 +4,19 @@
 (use 'pl.danieljanus.tagsoup)
 (require '[fipp.edn :refer (pprint) :rename {pprint fipp}])
 
+(def attributes-map 
+  {:class :className
+   :colspan :colSpan
+   :rowspan :rowSpan
+   }
+  )
 
 (defn parse-attributes [attributes]
   (into
     {}
     (mapcat
       (fn [[k v]]
-        (if-let [react-k ({:class :className} k)]
+        (if-let [react-k (attributes-map k)]
           [[react-k v]]
           [[k v]] ; TODO: make all attributes correct
           )

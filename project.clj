@@ -21,7 +21,9 @@
                  ]
 
   :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-3"]]
+            [lein-figwheel "0.5.0-3"]
+            [lein-ring "0.9.7"]
+            ]
 
 
   :source-paths ["src/clj" "src/cljs"]
@@ -29,6 +31,7 @@
   :clean-targets ^{:protect false} ["resources/public/js/out"
                                     "resources/public/js/main.js"]
 
+  :ring {:handler html2om.core/handler-prod}
   :figwheel {:ring-handler html2om.core/handler
              :server-port 8701}
 
