@@ -8,6 +8,7 @@
   {:class :className
    :colspan :colSpan
    :rowspan :rowSpan
+   :for :htmlFor
    }
   )
 
